@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何 AK IOI？- IAKIOI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-light: #f8fafc;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6rem 0 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,70 Q50,100 100,70 L100,100 L0,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .toc {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        .toc a.active {
+            color: var(--primary);
+        }
+
+        .toc a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .article-content {
+            margin-bottom: 4rem;
+        }
+
+        .chapter {
+            margin-bottom: 4rem;
+            scroll-margin-top: 100px;
+        }
+
+        .chapter-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chapter-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: inline-block;
+            color: var(--text);
+        }
+
+        .chapter-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .content h3 {
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .content ul, .content ol {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .highlight-box {
+            background: var(--bg-light);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .code-block {
+            background: #1a1b26;
+            color: #c0caf5;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+        }
+
+        .tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tip-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .resources-section {
+            background: var(--bg-light);
+            padding: 4rem 0;
+            margin: 4rem 0;
+            border-radius: var(--radius-lg);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .resource-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: var(--bg-light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .toc {
+                display: none;
+            }
+            
+            .nav-inner {
+                justify-content: center;
+            }
+            
+            .meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>如何 AK IOI</h1>
+                <!-- <p class="subtitle">温馨提示</p> -->
+                <div class="meta">
+                    <div class="meta-item">
+                        <i class="far fa-clock"></i>
+                        <span>阅读时间：inf 分钟</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="far fa-calendar"></i>
+                        <span>最后更新于：2025 年 9 月</span>
+                    </div>
+                    <p>
+                        <a href="/get-started" class="btn">开始学习</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航 -->
+    <div class="nav-container">
+        <div class="container nav-inner">
+            <ul class="toc">
+                <li><a href="#intro" class="active">简介</a></li>
+                <li><a href="#mindset">思想准备</a></li>
+                <li><a href="#knowledge">知识体系</a></li>
+                <li><a href="#practice">实战技巧</a></li>
+                <li><a href="#resources">资源</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="container">
+        <article class="article-content">
+            <!-- 简介 -->
+            <section id="intro" class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">0</span>
+                    <h2>简介</h2>
+                </div>
+                <div class="content">
+                    <p>AK IOI，即在国际信息学奥林匹克竞赛（IOI）中获得满分，是无数 OIer 的终极梦想。本文将系统性地阐述 AK IOI 的完整路径，涵盖从哲学思想、知识储备、实战技巧到赛前准备等全方位指导。</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>核心观点：</strong> AK IOI 是一个系统工程，其本质是战胜过去的自己。本教程不仅教你算法，更教你如何思考。</p>
+                    </div>
+                    
+                    <p>无论你是刚接触信息学竞赛的新手，还是有一定经验希望突破自我的选手，这篇文章都将为你提供有价值的指导。我们将从最基础的心态建设开始，逐步深入到高级算法和赛场策略。</p>
+                    
+                    <h3>什么是IOI？</h3>
+                    <p>国际信息学奥林匹克竞赛（IOI）是面向中学生的最高级别信息学竞赛，每年吸引来自全球近百个国家的顶尖选手参与。竞赛通常包含 6 道题目，需要在两天各 5 小时的比赛中解决。</p>
+                </div>
+            </section>
+
+            <!-- 思想准备 -->
+            <section id="mindset" class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">1</span>
+                    <h2>思想准备 - AK 是一种心态</h2>
+                </div>
+                <div class="content">
+                    <p class="chapter-subtitle">在开始学习任何算法之前，你必须先拥有 AK 者的心态。</p>
+                    
+                    <p>许多选手过于关注具体的技术细节，而忽略了心态建设的重要性。实际上，在 IOI 这样的高水平竞赛中，心态往往成为决定胜负的关键因素。</p>
+                    
+                    <h3>重新定义“AK”</h3>
+                    <p>对你而言，AK 不应该是一个结果，而是一种过程。每次模拟赛/正赛的 AK，每次对难题的透彻理解，都是向最终目标迈进的一步。</p>
+                    
+                    <div class="tip">
+                        <div class="tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <p><strong>实用建议：</strong> 将大目标分解为小目标。不要想着一上来就 AK IOI，而是先专注于 AK 一场模拟赛，或者将一个算法理解透彻。</p>
+                        </div>
+                    </div>
+                    
+                    <h3>拥抱失败</h3>
+                    <p>你将会有 99% 的时间在 WA/TLE/RE 等 Unaccepted 中度过。把这些错误信息当成是你的朋友，它们是评测姬在给你提示，而不是嘲讽。</p>
+                    
+                    <div class="code-block">
+                        // 调试的艺术：将错误视为学习机会<br>
+                        while (problem.hasBug()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;debug(problem);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;learnFromMistakes();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;problem.improve();<br>
+                        }
+                    </div>
+                </div>
+            </section>
+
+            <!-- 知识体系 -->
+            <section id="knowledge" class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">2</span>
+                    <h2>知识体系 - 建造你的武器库</h2>
+                </div>
+                <div class="content">
+                    <p class="chapter-subtitle">光有心态是不够的，你需要实打实的“武器”。</p>
+                    
+                    <h3>第一层：基础内功（必须滚瓜烂熟）</h3>
+                    <ul>
+                        <li><strong>语言：</strong>熟练掌握 C++ 语法。</li>
+                        <li><strong>数据结构：</strong> 数组、链表、栈、队列、二叉树、图（邻接表、邻接矩阵）。</li>
+                        <li><strong>算法：</strong> 排序、二分查找、递归、深度优先搜索（DFS）、广度优先搜索（BFS）、动态规划（DP）基础等。</li>
+                    </ul>
+                    
+                    <h3>第二层：进阶神功（IOI 奖牌的分水岭）</h3>
+                    <ul>
+                        <li><strong>数据结构：</strong> 线段树、树状数组、并查集、哈希表、堆等。</li>
+                        <li><strong>算法：</strong>
+                            <ul>
+                                <li><strong>图论：</strong> 最短路（Dijkstra, SPFA）、最小生成树（Kruskal, Prim）、拓扑排序、强连通分量（SCC）。</li>
+                                <li><strong>动态规划：</strong> 状态压缩DP、区间DP、树形DP。</li>
+                                <li><strong>数学：</strong> 数论（gcd，同余）、组合数学。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h3>第三层：屠龙之技（AK 的钥匙）</h3>
+                    <ul>
+                        <li><strong>高级数据结构：</strong> 平衡树（Splay, Treap）、可持久化数据结构、树链剖分。</li>
+                        <li><strong>高级算法：</strong>
+                            <ul>
+                                <li><strong>图论：</strong> 网络流、二分图匹配。</li>
+                                <li><strong>字符串：</strong> KMP、Trie 树、后缀数组/自动机。</li>
+                                <li><strong>计算几何：</strong> （IOI 常客，但难度爆炸）凸包、旋转卡壳等。</li>
+                            </ul>
+                        </li>
+                        <li><strong>思维技巧：</strong> 贪心、分治、折半搜索、Meet in the Middle。</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <div class="tip-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <p><strong>学习路径建议：</strong> 不要试图一次性掌握所有高级算法。先扎实掌握基础，然后根据比赛需求和个人兴趣选择进阶方向。质量比数量更重要。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 实战技巧 -->
+            <section id="practice" class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">3</span>
+                    <h2>实战技巧 - 赛场上的生存法则</h2>
+                </div>
+                <div class="content">
+                    <p class="chapter-subtitle">你知道所有算法，但比赛时就是写不出来？你需要这些技巧。</p>
+                    
+                    <h3>"暴力出奇迹"原则</h3>
+                    <p>永远先写一个最简单的暴力程序（Brute Force）。这有三个好处：</p>
+                    <ol>
+                        <li>帮你理解题意。</li>
+                        <li>提供对小数据的确信答案，用于对拍。</li>
+                        <li>万一数据水，你可能就 AC 了。（虽然在 IOI 中，这是极小概率的）</li>
+                    </ol>
+                    
+                    <h3>对拍是神</h3>
+                    <p>写一个数据生成器，用你的暴力程序和"高级程序"同时跑大量随机数据，比较结果。这是发现程序漏洞最有效的方法。</p>
+                    
+                    <div class="code-block">
+                        // 简单的对拍脚本思路<br>
+                        while (true) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;generate_test_data();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;run_brute_force();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;run_optimized_solution();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if (results_differ()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;debug_and_fix();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <h3>时间管理</h3>
+                    <p>简单题要稳、准、快，为难题留出时间。一道题如果卡了很久毫无头绪，果断切换下一题。</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>赛场黄金法则：</strong> 先确保拿到所有能拿的分数，再去挑战难题。在 IOI 中，部分分往往决定了奖牌的成色。</p>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </div>
+
+    <!-- 资源部分 -->
+    <section id="resources" class="resources-section">
+        <div class="container">
+            <div class="chapter-header">
+                <span class="chapter-number">4</span>
+                <h2>学习资源与平台</h2>
+            </div>
+            <p class="chapter-subtitle">正确的练习平台和方法比盲目刷题更重要</p>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>在线评测平台</h3>
+                    <p>合理利用洛谷、Codeforces、AtCoder、<del>OI League（gonoi.com.cn）</del>等主流 OJ 平台。</p>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>经典书籍</h3>
+                    <p>熟读一本通、深入浅出、<del>骗分导论</del>等经典教材。</p>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>社区与博客</h3>
+                    <p>使用 OI Wiki、博客园、洛谷文章广场等社区资源，向大神学习经验与技巧。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>本教程<del>旨在为有志于 AK IOI 的选手提供指导</del>仅供娱乐。</p>
+                <div class="footer-links">
+                    <a href="https://digdig.io"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://florr.io"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="https://www.luogu.com.cn/user/1510406"><i class="fas fa-envelope"></i> 联系</a>
+                </div>
+                <p class="copyright">
+                    &copy; 2025 I-A-K-I-O-I.github.io. 本教程内容仅供参考，实际效果因人而异。<br>
+                    <em>免责声明：本教程包含大量<del>批话</del>实用建议，阅读后若未能 AK IOI，请继续努力！</em>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动和导航高亮
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.chapter');
+            const navLinks = document.querySelectorAll('.toc a');
+            const progressBar = document.getElementById('progressBar');
+            
+            // 更新导航激活状态
+            function updateActiveNav() {
+                let current = '';
+                const scrollPos = window.scrollY + 100;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // 更新阅读进度条
+            function updateProgressBar() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.pageYOffset;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
+            // 平滑滚动
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                updateActiveNav();
+                updateProgressBar();
+            });
+            
+            // 初始化
+            updateActiveNav();
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html>
